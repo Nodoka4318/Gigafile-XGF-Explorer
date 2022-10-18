@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32319.34
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XGF-Explorer", "XGF-Explorer\XGF-Explorer.csproj", "{43792189-09A3-49CD-BE0C-978AF6905B7E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XGF-Explorer.Gui", "XGF-Explorer.Gui\XGF-Explorer.Gui.csproj", "{6D900499-19F2-40C2-814A-0DB919ED1192}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{43792189-09A3-49CD-BE0C-978AF6905B7E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{43792189-09A3-49CD-BE0C-978AF6905B7E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{43792189-09A3-49CD-BE0C-978AF6905B7E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{43792189-09A3-49CD-BE0C-978AF6905B7E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D900499-19F2-40C2-814A-0DB919ED1192}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D900499-19F2-40C2-814A-0DB919ED1192}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D900499-19F2-40C2-814A-0DB919ED1192}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D900499-19F2-40C2-814A-0DB919ED1192}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {9884A6A3-B948-4B02-AAF7-A47F369A5252}
+	EndGlobalSection
+EndGlobal
