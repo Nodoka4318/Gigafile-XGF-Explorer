@@ -16,6 +16,8 @@ namespace Xgf {
             } 
         }
 
+        public StreamWriter logOut;
+
         private List<string> _searchedCodes;
         private List<Gigafile> _validFiles;
         private List<string> _invalidCodes;
@@ -69,7 +71,7 @@ namespace Xgf {
 
         private void Log(string flag, string message = "", ConsoleColor color = ConsoleColor.Gray) {
             Console.ForegroundColor = color;
-            Console.WriteLine($"[{flag}] {message}");
+            Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")} {flag}] {message}");
         }
     }
 }
