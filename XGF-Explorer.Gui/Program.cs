@@ -8,12 +8,16 @@ namespace Xgf.Gui {
     internal class Program {
         internal static Explorer explorer = new Explorer();
         internal static bool searching = false;
-        internal static int interval = 100;
+        internal static int interval = 1000;
         static MainForm form = new MainForm();
 
+        [STAThread]
         public static void Main(string[] args) {
-            Application.Run(form);
+            Task.Run(Search);
+            Application.Run(form);            
+        }
 
+        private static void Search() {
             for (; ; ) {
                 while (searching) {
                     explorer.SearchOneAsync();

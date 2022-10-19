@@ -27,7 +27,8 @@
             this.activeLinksBox = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.infoLabel = new System.Windows.Forms.Label();
-            this.wholeInfoLabel = new System.Windows.Forms.Label();
+            this.foundFileLabel = new System.Windows.Forms.Label();
+            this.searchedLabel = new System.Windows.Forms.Label();
             this.openWebButton = new System.Windows.Forms.Button();
             this.downloadButton = new System.Windows.Forms.Button();
             this.startStopButton = new System.Windows.Forms.Button();
@@ -35,6 +36,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.spanTrackBar = new System.Windows.Forms.TrackBar();
             this.spanLabel = new System.Windows.Forms.Label();
+            this.seedGenButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seedInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spanTrackBar)).BeginInit();
@@ -60,7 +62,8 @@
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.infoLabel);
-            this.groupBox1.Controls.Add(this.wholeInfoLabel);
+            this.groupBox1.Controls.Add(this.foundFileLabel);
+            this.groupBox1.Controls.Add(this.searchedLabel);
             this.groupBox1.Location = new System.Drawing.Point(249, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(223, 111);
@@ -70,20 +73,29 @@
             // 
             // infoLabel
             // 
-            this.infoLabel.Location = new System.Drawing.Point(6, 34);
+            this.infoLabel.Location = new System.Drawing.Point(6, 49);
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(211, 74);
+            this.infoLabel.Size = new System.Drawing.Size(211, 59);
             this.infoLabel.TabIndex = 0;
             this.infoLabel.Text = "nothing to show now";
             // 
-            // wholeInfoLabel
+            // foundFileLabel
             // 
-            this.wholeInfoLabel.AutoSize = true;
-            this.wholeInfoLabel.Location = new System.Drawing.Point(6, 19);
-            this.wholeInfoLabel.Name = "wholeInfoLabel";
-            this.wholeInfoLabel.Size = new System.Drawing.Size(95, 15);
-            this.wholeInfoLabel.TabIndex = 0;
-            this.wholeInfoLabel.Text = "0 file(s), 0 byte(s)";
+            this.foundFileLabel.AutoSize = true;
+            this.foundFileLabel.Location = new System.Drawing.Point(6, 34);
+            this.foundFileLabel.Name = "foundFileLabel";
+            this.foundFileLabel.Size = new System.Drawing.Size(95, 15);
+            this.foundFileLabel.TabIndex = 0;
+            this.foundFileLabel.Text = "0 file(s), 0 byte(s)";
+            // 
+            // searchedLabel
+            // 
+            this.searchedLabel.AutoSize = true;
+            this.searchedLabel.Location = new System.Drawing.Point(6, 19);
+            this.searchedLabel.Name = "searchedLabel";
+            this.searchedLabel.Size = new System.Drawing.Size(63, 15);
+            this.searchedLabel.TabIndex = 0;
+            this.searchedLabel.Text = "0 searched";
             // 
             // openWebButton
             // 
@@ -93,6 +105,7 @@
             this.openWebButton.TabIndex = 3;
             this.openWebButton.Text = "View at gigafile.nu";
             this.openWebButton.UseVisualStyleBackColor = true;
+            this.openWebButton.Click += new System.EventHandler(this.openWebButton_Click);
             // 
             // downloadButton
             // 
@@ -105,11 +118,12 @@
             // 
             // startStopButton
             // 
+            this.startStopButton.ForeColor = System.Drawing.Color.Green;
             this.startStopButton.Location = new System.Drawing.Point(249, 129);
             this.startStopButton.Name = "startStopButton";
             this.startStopButton.Size = new System.Drawing.Size(52, 28);
             this.startStopButton.TabIndex = 4;
-            this.startStopButton.Text = "Start";
+            this.startStopButton.Text = "Run";
             this.startStopButton.UseVisualStyleBackColor = true;
             this.startStopButton.Click += new System.EventHandler(this.startStopButton_Click);
             // 
@@ -127,7 +141,7 @@
             0,
             0});
             this.seedInput.Name = "seedInput";
-            this.seedInput.Size = new System.Drawing.Size(121, 23);
+            this.seedInput.Size = new System.Drawing.Size(90, 23);
             this.seedInput.TabIndex = 5;
             this.seedInput.Value = new decimal(new int[] {
             1,
@@ -146,23 +160,34 @@
             // 
             // spanTrackBar
             // 
-            this.spanTrackBar.Location = new System.Drawing.Point(90, 230);
-            this.spanTrackBar.Maximum = 100000;
+            this.spanTrackBar.Location = new System.Drawing.Point(81, 230);
+            this.spanTrackBar.Maximum = 10000;
             this.spanTrackBar.Minimum = 1;
             this.spanTrackBar.Name = "spanTrackBar";
-            this.spanTrackBar.Size = new System.Drawing.Size(153, 45);
+            this.spanTrackBar.Size = new System.Drawing.Size(162, 45);
             this.spanTrackBar.TabIndex = 7;
             this.spanTrackBar.TickStyle = System.Windows.Forms.TickStyle.None;
-            this.spanTrackBar.Value = 1;
+            this.spanTrackBar.Value = 1000;
+            this.spanTrackBar.Scroll += new System.EventHandler(this.spanTrackBar_Scroll);
             // 
             // spanLabel
             // 
             this.spanLabel.AutoSize = true;
             this.spanLabel.Location = new System.Drawing.Point(12, 232);
             this.spanLabel.Name = "spanLabel";
-            this.spanLabel.Size = new System.Drawing.Size(57, 15);
+            this.spanLabel.Size = new System.Drawing.Size(63, 15);
             this.spanLabel.TabIndex = 8;
-            this.spanLabel.Text = "Span: 100";
+            this.spanLabel.Text = "Span: 1000";
+            // 
+            // seedGenButton
+            // 
+            this.seedGenButton.Location = new System.Drawing.Point(447, 129);
+            this.seedGenButton.Name = "seedGenButton";
+            this.seedGenButton.Size = new System.Drawing.Size(25, 28);
+            this.seedGenButton.TabIndex = 4;
+            this.seedGenButton.Text = "A";
+            this.seedGenButton.UseVisualStyleBackColor = true;
+            this.seedGenButton.Click += new System.EventHandler(this.seedGenButton_Click);
             // 
             // MainForm
             // 
@@ -173,6 +198,7 @@
             this.Controls.Add(this.spanTrackBar);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.seedInput);
+            this.Controls.Add(this.seedGenButton);
             this.Controls.Add(this.startStopButton);
             this.Controls.Add(this.downloadButton);
             this.Controls.Add(this.openWebButton);
@@ -200,7 +226,7 @@
         private Label label1;
         private CheckedListBox activeLinksBox;
         private GroupBox groupBox1;
-        private Label wholeInfoLabel;
+        private Label searchedLabel;
         private Button openWebButton;
         private Button downloadButton;
         private Label infoLabel;
@@ -209,5 +235,7 @@
         private Label label2;
         private TrackBar spanTrackBar;
         private Label spanLabel;
+        private Button seedGenButton;
+        private Label foundFileLabel;
     }
 }

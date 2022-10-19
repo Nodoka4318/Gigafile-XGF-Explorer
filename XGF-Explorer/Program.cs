@@ -1,6 +1,6 @@
 ﻿using Xgf;
 
 var explorer = Explorer.GetExplorer();
-for (; ;) {
+for (;;) {
     await explorer.SearchOneAsync();
 }

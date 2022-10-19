@@ -74,7 +74,7 @@ namespace Xgf {
             req.CookieContainer.Add(cookies);
             var res = await req.GetResponseAsync();
 
-            string cd = res.Headers["content-disposition"];
+            string cd = res.Headers.Get("Content-Disposition");
             if (!String.IsNullOrEmpty(cd)) {
                 Regex re = new Regex(@".*[filename*=UTF]-[8]''(?<filename>.*)");
                 Match m = re.Match(cd);
@@ -106,7 +106,7 @@ namespace Xgf {
             req.Method = "HEAD";
             var res = await req.GetResponseAsync();
 
-            string cd = res.Headers["content-disposition"];
+            string cd = res.Headers.Get("Content-Disposition");
             if (!String.IsNullOrEmpty(cd)) {
                 Regex re = new Regex(@".*[filename*=UTF]-[8]''(?<filename>.*)");
                 Match m = re.Match(cd);
