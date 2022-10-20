@@ -10,10 +10,13 @@ using System.Web;
 namespace Xgf {
     public class Gigafile {
         public string Uri => _uri.ToString();
+        public string RedirectedUri => _redirectedUri.ToString();
         public string FileName => _fileName;
         public string Code => _uri.ToString().Split("/")[3];
         public string FileId => _redirectedUri.ToString().Split('/')[3];
         public long FileSize => _fileSize;
+        public string FileNameWithCode => $"{_fileName} ({Code})"; // リストボックス参照用
+        public string Server => _redirectedUri.ToString().Substring(8, 2).Replace(".", "");
 
         private Uri _uri;
         private Uri _redirectedUri;

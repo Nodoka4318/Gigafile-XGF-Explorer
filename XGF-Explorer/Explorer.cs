@@ -23,6 +23,7 @@ namespace Xgf {
                 return cur;
             }
         }
+        public bool HasNewFile => _newFiles.Count() > 0;
 
         public StreamWriter logOut;
 
@@ -57,7 +58,7 @@ namespace Xgf {
             if (isExists) {
                 await gfile.GetFileName();
                 _validFiles.Add(gfile);
-                _newFiles.Add($"{gfile.FileName} ({gfile.Code})");
+                _newFiles.Add(gfile.FileNameWithCode);
                 Log("VALID", $"Found '{gfile.FileName}' at '{code}'. FileSize: {gfile.FileSize}", ConsoleColor.Green);
             } else {
                 _invalidCodes.Add(code);

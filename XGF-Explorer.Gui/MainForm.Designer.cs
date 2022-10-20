@@ -26,7 +26,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.activeLinksBox = new System.Windows.Forms.CheckedListBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.infoLabel = new System.Windows.Forms.Label();
+            this.infoLabel = new System.Windows.Forms.TextBox();
             this.foundFileLabel = new System.Windows.Forms.Label();
             this.searchedLabel = new System.Windows.Forms.Label();
             this.openWebButton = new System.Windows.Forms.Button();
@@ -37,6 +37,9 @@
             this.spanTrackBar = new System.Windows.Forms.TrackBar();
             this.spanLabel = new System.Windows.Forms.Label();
             this.seedGenButton = new System.Windows.Forms.Button();
+            this.selectAllButton = new System.Windows.Forms.Button();
+            this.selectNoneButton = new System.Windows.Forms.Button();
+            this.exportButton = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.seedInput)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.spanTrackBar)).BeginInit();
@@ -56,7 +59,7 @@
             this.activeLinksBox.FormattingEnabled = true;
             this.activeLinksBox.Location = new System.Drawing.Point(12, 27);
             this.activeLinksBox.Name = "activeLinksBox";
-            this.activeLinksBox.Size = new System.Drawing.Size(231, 202);
+            this.activeLinksBox.Size = new System.Drawing.Size(231, 220);
             this.activeLinksBox.TabIndex = 1;
             // 
             // groupBox1
@@ -66,18 +69,21 @@
             this.groupBox1.Controls.Add(this.searchedLabel);
             this.groupBox1.Location = new System.Drawing.Point(249, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(223, 111);
+            this.groupBox1.Size = new System.Drawing.Size(223, 161);
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Informations";
+            this.groupBox1.Text = "Information";
             // 
             // infoLabel
             // 
-            this.infoLabel.Location = new System.Drawing.Point(6, 49);
+            this.infoLabel.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.infoLabel.Location = new System.Drawing.Point(6, 52);
+            this.infoLabel.Multiline = true;
             this.infoLabel.Name = "infoLabel";
-            this.infoLabel.Size = new System.Drawing.Size(211, 59);
-            this.infoLabel.TabIndex = 0;
-            this.infoLabel.Text = "nothing to show now";
+            this.infoLabel.ReadOnly = true;
+            this.infoLabel.Size = new System.Drawing.Size(211, 103);
+            this.infoLabel.TabIndex = 1;
+            this.infoLabel.Text = "nothing selected";
             // 
             // foundFileLabel
             // 
@@ -99,7 +105,8 @@
             // 
             // openWebButton
             // 
-            this.openWebButton.Location = new System.Drawing.Point(249, 163);
+            this.openWebButton.Enabled = false;
+            this.openWebButton.Location = new System.Drawing.Point(249, 213);
             this.openWebButton.Name = "openWebButton";
             this.openWebButton.Size = new System.Drawing.Size(223, 40);
             this.openWebButton.TabIndex = 3;
@@ -109,7 +116,8 @@
             // 
             // downloadButton
             // 
-            this.downloadButton.Location = new System.Drawing.Point(249, 207);
+            this.downloadButton.Enabled = false;
+            this.downloadButton.Location = new System.Drawing.Point(249, 259);
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(223, 40);
             this.downloadButton.TabIndex = 3;
@@ -119,7 +127,7 @@
             // startStopButton
             // 
             this.startStopButton.ForeColor = System.Drawing.Color.Green;
-            this.startStopButton.Location = new System.Drawing.Point(249, 129);
+            this.startStopButton.Location = new System.Drawing.Point(249, 179);
             this.startStopButton.Name = "startStopButton";
             this.startStopButton.Size = new System.Drawing.Size(52, 28);
             this.startStopButton.TabIndex = 4;
@@ -129,7 +137,7 @@
             // 
             // seedInput
             // 
-            this.seedInput.Location = new System.Drawing.Point(351, 131);
+            this.seedInput.Location = new System.Drawing.Point(351, 181);
             this.seedInput.Maximum = new decimal(new int[] {
             2147483647,
             0,
@@ -152,7 +160,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(307, 136);
+            this.label2.Location = new System.Drawing.Point(307, 186);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(38, 15);
             this.label2.TabIndex = 6;
@@ -160,7 +168,7 @@
             // 
             // spanTrackBar
             // 
-            this.spanTrackBar.Location = new System.Drawing.Point(81, 230);
+            this.spanTrackBar.Location = new System.Drawing.Point(81, 284);
             this.spanTrackBar.Maximum = 10000;
             this.spanTrackBar.Minimum = 1;
             this.spanTrackBar.Name = "spanTrackBar";
@@ -173,7 +181,7 @@
             // spanLabel
             // 
             this.spanLabel.AutoSize = true;
-            this.spanLabel.Location = new System.Drawing.Point(12, 232);
+            this.spanLabel.Location = new System.Drawing.Point(12, 287);
             this.spanLabel.Name = "spanLabel";
             this.spanLabel.Size = new System.Drawing.Size(63, 15);
             this.spanLabel.TabIndex = 8;
@@ -181,7 +189,8 @@
             // 
             // seedGenButton
             // 
-            this.seedGenButton.Location = new System.Drawing.Point(447, 129);
+            this.seedGenButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.seedGenButton.Location = new System.Drawing.Point(447, 179);
             this.seedGenButton.Name = "seedGenButton";
             this.seedGenButton.Size = new System.Drawing.Size(25, 28);
             this.seedGenButton.TabIndex = 4;
@@ -189,11 +198,47 @@
             this.seedGenButton.UseVisualStyleBackColor = true;
             this.seedGenButton.Click += new System.EventHandler(this.seedGenButton_Click);
             // 
+            // selectAllButton
+            // 
+            this.selectAllButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.selectAllButton.Font = new System.Drawing.Font("Yu Gothic UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.selectAllButton.Location = new System.Drawing.Point(12, 253);
+            this.selectAllButton.Name = "selectAllButton";
+            this.selectAllButton.Size = new System.Drawing.Size(64, 23);
+            this.selectAllButton.TabIndex = 9;
+            this.selectAllButton.Text = "Select all";
+            this.selectAllButton.UseVisualStyleBackColor = true;
+            this.selectAllButton.Click += new System.EventHandler(this.selectAllButton_Click);
+            // 
+            // selectNoneButton
+            // 
+            this.selectNoneButton.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
+            this.selectNoneButton.Font = new System.Drawing.Font("Yu Gothic UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
+            this.selectNoneButton.Location = new System.Drawing.Point(82, 253);
+            this.selectNoneButton.Name = "selectNoneButton";
+            this.selectNoneButton.Size = new System.Drawing.Size(64, 23);
+            this.selectNoneButton.TabIndex = 9;
+            this.selectNoneButton.Text = "Select none";
+            this.selectNoneButton.UseVisualStyleBackColor = true;
+            this.selectNoneButton.Click += new System.EventHandler(this.selectNoneButton_Click);
+            // 
+            // exportButton
+            // 
+            this.exportButton.Location = new System.Drawing.Point(152, 253);
+            this.exportButton.Name = "exportButton";
+            this.exportButton.Size = new System.Drawing.Size(91, 23);
+            this.exportButton.TabIndex = 10;
+            this.exportButton.Text = "Export";
+            this.exportButton.UseVisualStyleBackColor = true;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 261);
+            this.ClientSize = new System.Drawing.Size(484, 311);
+            this.Controls.Add(this.exportButton);
+            this.Controls.Add(this.selectNoneButton);
+            this.Controls.Add(this.selectAllButton);
             this.Controls.Add(this.spanLabel);
             this.Controls.Add(this.spanTrackBar);
             this.Controls.Add(this.label2);
@@ -206,9 +251,9 @@
             this.Controls.Add(this.activeLinksBox);
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
-            this.MaximumSize = new System.Drawing.Size(500, 300);
+            this.MaximumSize = new System.Drawing.Size(500, 350);
             this.MinimizeBox = false;
-            this.MinimumSize = new System.Drawing.Size(500, 300);
+            this.MinimumSize = new System.Drawing.Size(500, 350);
             this.Name = "MainForm";
             this.ShowIcon = false;
             this.Text = "XGF-Explorer";
@@ -229,7 +274,6 @@
         private Label searchedLabel;
         private Button openWebButton;
         private Button downloadButton;
-        private Label infoLabel;
         private Button startStopButton;
         private NumericUpDown seedInput;
         private Label label2;
@@ -237,5 +281,9 @@
         private Label spanLabel;
         private Button seedGenButton;
         private Label foundFileLabel;
+        private Button selectAllButton;
+        private Button selectNoneButton;
+        private Button exportButton;
+        private TextBox infoLabel;
     }
 }
