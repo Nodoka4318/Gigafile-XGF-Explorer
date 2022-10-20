@@ -5,7 +5,7 @@
 | The author **assumes no responsibility** for any problems with this software. |
 
 ## Overview
-This software randomly generates 4-digit codes for xgf.nu, a URL shortening service for Gigafile flights, and searches uploaded files.
+This software randomly generates 4-digit codes for [xgf.nu](https://xgf.nu), a URL shortening service for [Gigafile](https://gigafile.nu), and searches uploaded files.
 
 ## Functions
 - Automatic checking of valid codes
