@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace Xgf.Gui {
     public partial class MainForm : Form {
+        public int Seed => (int)seedInput.Value;
+
         private System.Windows.Forms.Timer _ticker;
         private List<string> _selected;
 
@@ -14,8 +16,13 @@ namespace Xgf.Gui {
             _selected = new List<string>();
             _ticker.Tick += _ticker_Tick;
             activeLinksBox.ItemCheck += ActiveLinksBox_ItemCheck;
+            seedInput.ValueChanged += SeedInput_ValueChanged;
 
             seedInput.Value = Environment.TickCount;
+        }
+
+        private void SeedInput_ValueChanged(object? sender, EventArgs e) {
+            Program.explorer.Seed = Seed;
         }
 
         private void ActiveLinksBox_ItemCheck(object? sender, ItemCheckEventArgs e) {
@@ -75,6 +82,7 @@ namespace Xgf.Gui {
 
         private void seedGenButton_Click(object sender, EventArgs e) {
             seedInput.Value = Environment.TickCount;
+            Program.explorer.Seed = Seed;
         }
 
         private void spanTrackBar_Scroll(object sender, EventArgs e) {
@@ -111,6 +119,20 @@ namespace Xgf.Gui {
             for (int i = 0; i < activeLinksBox.Items.Count; i++) {
                 activeLinksBox.SetItemChecked(i, false);
                 CheckActiveLinksBox();
+            }
+        }
+
+        private void exportButton_Click(object sender, EventArgs e) {
+            var jsonStr = JsonFileItem.BuildJsonString(Program.explorer.ValidFiles);
+
+            using (var dlg = new SaveFileDialog() {
+                Title = "Export",
+                Filter = "Json files(*.json)| *.json | All files(*.*) | *.*",
+                FileName = DateTime.Now.ToString("yyyyMMdd-HH-mm-ss")
+            }) {
+                if (dlg.ShowDialog() == DialogResult.OK) {
+                    File.WriteAllTextAsync(dlg.FileName, jsonStr);
+                }
             }
         }
     }

@@ -230,6 +230,7 @@
             this.exportButton.TabIndex = 10;
             this.exportButton.Text = "Export";
             this.exportButton.UseVisualStyleBackColor = true;
+            this.exportButton.Click += new System.EventHandler(this.exportButton_Click);
             // 
             // MainForm
             // 

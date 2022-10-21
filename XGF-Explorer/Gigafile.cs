@@ -22,7 +22,7 @@ namespace Xgf {
         private Uri _redirectedUri;
         private bool _isFileExists;
         private bool _isRedirectedUriSet = false;
-        private string _fileName = "unknown (perhaps multiple files?)";
+        private string _fileName = "failed to get filename";
         private long _fileSize;
         private bool _disposed = false;
 
@@ -83,6 +83,35 @@ namespace Xgf {
                 Match m = re.Match(cd);
                 if (m.Success) {
                     _fileName = HttpUtility.UrlDecode(m.Groups["filename"].Value);
+                } else {
+                    re = new Regex(@".*[filename=](?<filename>.*)");
+                    m = re.Match(cd);
+                    if (m.Success) {
+                        _fileName = m.Groups["filename"].Value;
+                    }
+                }
+            } else { // ネスト頭悪すぎて草
+                uriDirs = _redirectedUri.ToString().Replace("https://", "").Split("/");
+                downloadUri = $"https://{uriDirs[0]}/dl_zip.php?file={uriDirs[1]}";
+
+                req = (HttpWebRequest)WebRequest.Create(downloadUri);
+                req.CookieContainer = new CookieContainer();
+                req.CookieContainer.Add(cookies);
+                res = await req.GetResponseAsync();
+
+                cd = res.Headers.Get("Content-Disposition");
+                if (!String.IsNullOrEmpty(cd)) {
+                    Regex re = new Regex(@".*[filename*=UTF]-[8]''(?<filename>.*)");
+                    Match m = re.Match(cd);
+                    if (m.Success) {
+                        _fileName = HttpUtility.UrlDecode(m.Groups["filename"].Value);
+                    } else {
+                        re = new Regex(@".*[filename=](?<filename>.*)");
+                        m = re.Match(cd);
+                        if (m.Success) {
+                            _fileName = m.Groups["filename"].Value;
+                        }
+                    }
                 }
             }
 
@@ -115,6 +144,35 @@ namespace Xgf {
                 Match m = re.Match(cd);
                 if (m.Success) {
                     _fileName = HttpUtility.UrlDecode(m.Groups["filename"].Value);
+                } else {
+                    re = new Regex(@".*[filename=](?<filename>.*)");
+                    m = re.Match(cd);
+                    if (m.Success) {
+                        _fileName = m.Groups["filename"].Value;
+                    }
+                } 
+            } else {
+                downloadUri = $"https://{uriDirs[0]}/dl_zip.php?file={uriDirs[1]}";
+
+                req = (HttpWebRequest)WebRequest.Create(downloadUri);
+                req.CookieContainer = new CookieContainer();
+                req.CookieContainer.Add(cookies);
+                req.Method = "HEAD";
+                res = await req.GetResponseAsync();
+
+                cd = res.Headers.Get("Content-Disposition");
+                if (!String.IsNullOrEmpty(cd)) {
+                    Regex re = new Regex(@".*[filename*=UTF]-[8]''(?<filename>.*)");
+                    Match m = re.Match(cd);
+                    if (m.Success) {
+                        _fileName = HttpUtility.UrlDecode(m.Groups["filename"].Value);
+                    } else {
+                        re = new Regex(@".*[filename=](?<filename>.*)");
+                        m = re.Match(cd);
+                        if (m.Success) {
+                            _fileName = m.Groups["filename"].Value;
+                        }
+                    }
                 }
             }
 

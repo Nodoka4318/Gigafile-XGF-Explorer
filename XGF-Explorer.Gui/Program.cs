@@ -13,6 +13,7 @@ namespace Xgf.Gui {
 
         [STAThread]
         public static void Main(string[] args) {
+            explorer.Seed = form.Seed;
             Task.Run(Search);
             Application.Run(form);            
         }

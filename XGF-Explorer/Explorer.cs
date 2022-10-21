@@ -24,6 +24,7 @@ namespace Xgf {
             }
         }
         public bool HasNewFile => _newFiles.Count() > 0;
+        public int Seed { get => _seed; set { _seed = value; _lastSeed = -1; } }
 
         public StreamWriter logOut;
 
@@ -32,6 +33,8 @@ namespace Xgf {
         private List<string> _invalidCodes;
         private bool _updated = false;
         private List<string> _newFiles;
+        private int _lastSeed = -1;
+        private int _seed = 0;
 
         private static Explorer _explorer = new Explorer();
         const string AddressBase = "https://xgf.nu/";
@@ -43,10 +46,18 @@ namespace Xgf {
             _newFiles = new List<string>();
         }
 
-        public async Task SearchOneAsync(int seed = 0) {
+        public async Task SearchOneAsync() {
             string code = "0";
             while (code == "0" || _searchedCodes.Contains(code)) {
-                code = GenerateRandomCode(seed);
+                if (_lastSeed != -1) {
+                    var newSeed = new Random(_lastSeed).Next();
+                    code = GenerateRandomCode(newSeed);
+                    _lastSeed = newSeed;
+                } else {
+                    code = GenerateRandomCode(_seed);
+                    _lastSeed = _seed;
+                }
+                // Log("DEBUG", _lastSeed.ToString(), ConsoleColor.Cyan);
             }
 
             _searchedCodes.Add(code);
@@ -73,7 +84,7 @@ namespace Xgf {
 
         private static string GenerateRandomCode(int seed) {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-            var rnd = new Random(seed == 0 ? Environment.TickCount : seed);
+            var rnd = new Random(seed == -1 ? Environment.TickCount : seed);
             string code = "";
             for (int i = 0; i < 4; i++) {
                 code += chars[rnd.Next(chars.Length)];
