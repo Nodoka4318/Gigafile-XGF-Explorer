@@ -123,6 +123,7 @@
             this.downloadButton.TabIndex = 3;
             this.downloadButton.Text = "Download";
             this.downloadButton.UseVisualStyleBackColor = true;
+            this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
             // 
             // startStopButton
             // 
@@ -170,7 +171,7 @@
             // 
             this.spanTrackBar.Location = new System.Drawing.Point(81, 284);
             this.spanTrackBar.Maximum = 10000;
-            this.spanTrackBar.Minimum = 1;
+            this.spanTrackBar.Minimum = 100;
             this.spanTrackBar.Name = "spanTrackBar";
             this.spanTrackBar.Size = new System.Drawing.Size(162, 45);
             this.spanTrackBar.TabIndex = 7;

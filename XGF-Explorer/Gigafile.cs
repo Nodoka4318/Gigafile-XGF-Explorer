@@ -17,13 +17,15 @@ namespace Xgf {
         public long FileSize => _fileSize;
         public string FileNameWithCode => $"{_fileName} ({Code})"; // リストボックス参照用
         public string Server => _redirectedUri.ToString().Substring(8, 2).Replace(".", "");
+        public string DownloadUri => _dlUri;
 
         private Uri _uri;
         private Uri _redirectedUri;
         private bool _isFileExists;
         private bool _isRedirectedUriSet = false;
-        private string _fileName = "failed to get filename";
+        private string _fileName = "failed to get filename (password required?)";
         private long _fileSize;
+        private string _dlUri = "";
         private bool _disposed = false;
 
         const string DefaultGigafileAddress = "https://gigafile.nu/";
@@ -62,7 +64,7 @@ namespace Xgf {
             return IsFileExists(_redirectedUri.ToString());
         }
 
-        public async Task<Stream> DownloadFile() {
+        public async Task<Stream> DownloadFileStream() {
             if (!_isRedirectedUriSet)
                 await GetRedirectedAddress();
             if (!_isFileExists)
@@ -70,7 +72,7 @@ namespace Xgf {
 
             var cookies = await GetCookieCollectionFromUri(_redirectedUri);
             var uriDirs = _redirectedUri.ToString().Replace("https://", "").Split("/");
-            var downloadUri = $"https://{uriDirs[0]}/download.php?file={uriDirs[1]}";
+            var downloadUri = $"https://{uriDirs[0]}/download.php?file={uriDirs[1]}&dlnotify=0";
 
             var req = (HttpWebRequest)WebRequest.Create(downloadUri);
             req.CookieContainer = new CookieContainer();
@@ -90,9 +92,10 @@ namespace Xgf {
                         _fileName = m.Groups["filename"].Value;
                     }
                 }
+                _dlUri = downloadUri;
             } else { // ネスト頭悪すぎて草
                 uriDirs = _redirectedUri.ToString().Replace("https://", "").Split("/");
-                downloadUri = $"https://{uriDirs[0]}/dl_zip.php?file={uriDirs[1]}";
+                downloadUri = $"https://{uriDirs[0]}/dl_zip.php?file={uriDirs[1]}&dlnotify=0";
 
                 req = (HttpWebRequest)WebRequest.Create(downloadUri);
                 req.CookieContainer = new CookieContainer();
@@ -113,6 +116,7 @@ namespace Xgf {
                         }
                     }
                 }
+                _dlUri = downloadUri;
             }
 
             if (long.TryParse(res.Headers.Get("Content-Length"), out long ContentLength)) {
@@ -130,7 +134,7 @@ namespace Xgf {
 
             var cookies = await GetCookieCollectionFromUri(_redirectedUri);
             var uriDirs = _redirectedUri.ToString().Replace("https://", "").Split("/");
-            var downloadUri = $"https://{uriDirs[0]}/download.php?file={uriDirs[1]}";
+            var downloadUri = $"https://{uriDirs[0]}/download.php?file={uriDirs[1]}&dlnotify=0";
 
             var req = (HttpWebRequest)WebRequest.Create(downloadUri);
             req.CookieContainer = new CookieContainer();
@@ -150,9 +154,10 @@ namespace Xgf {
                     if (m.Success) {
                         _fileName = m.Groups["filename"].Value;
                     }
-                } 
+                }
+                _dlUri = downloadUri;
             } else {
-                downloadUri = $"https://{uriDirs[0]}/dl_zip.php?file={uriDirs[1]}";
+                downloadUri = $"https://{uriDirs[0]}/dl_zip.php?file={uriDirs[1]}&dlnotify=0";
 
                 req = (HttpWebRequest)WebRequest.Create(downloadUri);
                 req.CookieContainer = new CookieContainer();
@@ -174,6 +179,7 @@ namespace Xgf {
                         }
                     }
                 }
+                _dlUri = downloadUri;
             }
 
             if (long.TryParse(res.Headers.Get("Content-Length"), out long ContentLength)) {
@@ -184,7 +190,7 @@ namespace Xgf {
         }
 
         public async Task DownloadAndSaveFileAt(string directory) {
-            var dataStream = await DownloadFile();
+            var dataStream = await DownloadFileStream();
 
             using (var fs = new FileStream($@"{directory}\{_fileName}", FileMode.Create, FileAccess.Write)) {
                 byte[] data = new byte[1024];
@@ -199,7 +205,7 @@ namespace Xgf {
             dataStream.Close();
         }
 
-        private async static Task<CookieCollection> GetCookieCollectionFromUri(Uri uri) {
+        public async static Task<CookieCollection> GetCookieCollectionFromUri(Uri uri) {
             var cc = new CookieContainer();
             var req = (HttpWebRequest)WebRequest.Create(uri);
             req.CookieContainer = new CookieContainer();

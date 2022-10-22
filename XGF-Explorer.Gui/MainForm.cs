@@ -1,5 +1,7 @@
+using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Net;
 
 namespace Xgf.Gui {
     public partial class MainForm : Form {
@@ -26,7 +28,7 @@ namespace Xgf.Gui {
         }
 
         private void ActiveLinksBox_ItemCheck(object? sender, ItemCheckEventArgs e) {
-            BeginInvoke(new Action(CheckActiveLinksBox));            
+            BeginInvoke(new Action(CheckActiveLinksBox));
         }
 
         private void CheckActiveLinksBox() {
@@ -77,7 +79,7 @@ namespace Xgf.Gui {
                 Text = "XGF-Explorer";
                 _ticker.Enabled = false;
             }
-            Program.searching = !Program.searching;          
+            Program.searching = !Program.searching;
         }
 
         private void seedGenButton_Click(object sender, EventArgs e) {
@@ -95,7 +97,7 @@ namespace Xgf.Gui {
             if (Program.explorer.Updated) {
                 searchedLabel.Text = $"{Program.explorer.Searched} searched";
                 foundFileLabel.Text = $"{Program.explorer.ValidFiles.Count()} file(s), {Program.explorer.ValidFiles.Sum(f => f.FileSize)} byte(s)";
-                
+
                 if (Program.explorer.HasNewFile)
                     activeLinksBox.Items.AddRange(Program.explorer.NewFiles);
             }
@@ -103,8 +105,8 @@ namespace Xgf.Gui {
 
         private void openWebButton_Click(object sender, EventArgs e) {
             Process.Start(new ProcessStartInfo() {
-                 FileName = GetSelectedFiles()[0].RedirectedUri,
-                 UseShellExecute = true,
+                FileName = GetSelectedFiles()[0].RedirectedUri,
+                UseShellExecute = true,
             });
         }
 
@@ -134,6 +136,66 @@ namespace Xgf.Gui {
                     File.WriteAllTextAsync(dlg.FileName, jsonStr);
                 }
             }
+        }
+
+        static DownloadProgressDialog progDlg;
+
+        private async void downloadButton_Click(object sender, EventArgs e) {
+            var files = GetSelectedFiles();
+            int failed = 0;
+            string dir = "";
+
+            using (var dlg = new FolderBrowserDialog()) {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    dir = dlg.SelectedPath;
+                else
+                    return;
+            }
+
+            Enabled = false;
+
+            progDlg = new DownloadProgressDialog(files.Count);
+            progDlg.Show();
+
+            await Task.Run(async () => {
+                foreach (var file in files) {
+                    progDlg.ResetProgressBar1();
+                    if (file.FileName == "failed to get filename (password required?)") {
+                        failed++;
+                        progDlg.IncrementProgressBar2();
+                        continue;
+                    }
+
+                    var req = (HttpWebRequest)WebRequest.Create(file.DownloadUri);
+                    req.CookieContainer = new CookieContainer();
+                    req.CookieContainer.Add(await Gigafile.GetCookieCollectionFromUri(new Uri(file.RedirectedUri)));
+                    var response = await req.GetResponseAsync();
+                    var list = new List<byte>();
+                    var stream = response.GetResponseStream();
+
+                    using (var fs = new FileStream($@"{dir}\{file.FileName}", FileMode.Create, FileAccess.Write)) {
+                        byte[] data = new byte[1024];
+                        int received = 0;
+                        while (true) {
+                            var size = stream.Read(data, 0, data.Length);
+                            if (size == 0) {
+                                break;
+                            }
+                            fs.Write(data, 0, size);
+
+                            received++;
+                            progDlg.IncrementProgressBar1((int)Math.Floor((double)received * 100d / (double)data.Length), file.FileSize);
+                        }
+                    }
+
+                    progDlg.IncrementProgressBar2();
+                }
+            });
+
+            MessageBox.Show($"Success: {files.Count - failed} file(s)\nFailed: {failed} files(s)\n\nSaved at {dir}");
+            progDlg.Dispose();
+
+            Enabled = true;
         }
     }
 }
