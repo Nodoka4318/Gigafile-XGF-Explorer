@@ -1,6 +1,6 @@
 # XGF-Explorer
 ## Disclaimer
-| This software is **for educational purposes only**. |
+| THIS SOFTWARE IS **FOR EDUCATIONAL PURPOSES ONLY**. |
 | --------------------------------------------------- |
 | The author **assumes no responsibility** for any problems with this software. |
 
@@ -16,7 +16,8 @@ This software randomly generates 4-digit codes for [xgf.nu](https://xgf.nu), a U
 ## How to use
 Download the latest version zip from the release page and unzip it.
 
-## Screenshots
+## Screenshot
+![thumb1](https://user-images.githubusercontent.com/78198198/197372715-efaf1c17-6394-4845-8f41-6af4a31781d3.png)
 
 # Conclusion
 The 4-digit code in xgf.nu uses only single-byte alphanumeric characters.
@@ -30,4 +31,4 @@ To prevent the leakage of your data, you should
 - Do not shorten links
 - Avoid using Gigafile when sending important data.
 
-<big>**Be careful with your important files!**</big>
+**Be careful with your files!**
