@@ -77,6 +77,7 @@
             // infoLabel
             // 
             this.infoLabel.Cursor = System.Windows.Forms.Cursors.IBeam;
+            this.infoLabel.Font = new System.Drawing.Font("Yu Gothic UI", 7.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.infoLabel.Location = new System.Drawing.Point(6, 52);
             this.infoLabel.Multiline = true;
             this.infoLabel.Name = "infoLabel";
@@ -121,7 +122,7 @@
             this.downloadButton.Name = "downloadButton";
             this.downloadButton.Size = new System.Drawing.Size(223, 40);
             this.downloadButton.TabIndex = 3;
-            this.downloadButton.Text = "Download";
+            this.downloadButton.Text = "Download selected";
             this.downloadButton.UseVisualStyleBackColor = true;
             this.downloadButton.Click += new System.EventHandler(this.downloadButton_Click);
             // 
@@ -254,7 +255,6 @@
             this.Controls.Add(this.label1);
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(500, 350);
-            this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(500, 350);
             this.Name = "MainForm";
             this.ShowIcon = false;

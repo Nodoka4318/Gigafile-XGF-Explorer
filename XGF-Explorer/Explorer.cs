@@ -35,15 +35,22 @@ namespace Xgf {
         private List<string> _newFiles;
         private int _lastSeed = -1;
         private int _seed = 0;
+        private string _logPath;
 
         private static Explorer _explorer = new Explorer();
         const string AddressBase = "https://xgf.nu/";
 
-        public Explorer() {
+        public Explorer(string logOutPath = "") {
             _searchedCodes = new List<string>();
             _validFiles = new List<Gigafile>();
             _invalidCodes = new List<string>();
             _newFiles = new List<string>();
+            _logPath = logOutPath;
+
+            if (_logPath != "") {
+                logOut = new StreamWriter(_logPath, true, Encoding.UTF8);
+                logOut.AutoFlush = true;
+            }
         }
 
         public async Task SearchOneAsync() {
@@ -93,8 +100,10 @@ namespace Xgf {
         }
 
         private void Log(string flag, string message = "", ConsoleColor color = ConsoleColor.Gray) {
-            Console.ForegroundColor = color;
+            Console.ForegroundColor = color;            
             Console.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")} {flag}] {message}");
+            if (_logPath != "")
+                logOut.WriteLine($"[{DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss")} {flag}] {message}");
             Console.ForegroundColor = ConsoleColor.Gray;
         }
     }

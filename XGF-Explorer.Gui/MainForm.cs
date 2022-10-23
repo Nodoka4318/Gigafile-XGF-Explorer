@@ -50,12 +50,10 @@ namespace Xgf.Gui {
                     infoLabel.Text = $"Filename: {files[0].FileName}\r\nSize: {files[0].FileSize}\r\nCode: {files[0].Code}\r\nServer: {files[0].Server}\r\nId: {files[0].FileId}";
                     downloadButton.Enabled = true;
                     openWebButton.Enabled = true;
-                    downloadButton.Text = "Download";
                 } else {
                     infoLabel.Text = $"{items.Count} files selected\r\n{files.Sum(f => f.FileSize)} byte(s)";
                     downloadButton.Enabled = true;
                     openWebButton.Enabled = false;
-                    downloadButton.Text = "Download all";
                 }
             }
         }
@@ -138,11 +136,7 @@ namespace Xgf.Gui {
             }
         }
 
-        static DownloadProgressDialog progDlg;
-
         private async void downloadButton_Click(object sender, EventArgs e) {
-            var files = GetSelectedFiles();
-            int failed = 0;
             string dir = "";
 
             using (var dlg = new FolderBrowserDialog()) {
@@ -154,46 +148,8 @@ namespace Xgf.Gui {
 
             Enabled = false;
 
-            progDlg = new DownloadProgressDialog(files.Count);
-            progDlg.Show();
-
-            await Task.Run(async () => {
-                foreach (var file in files) {
-                    progDlg.ResetProgressBar1();
-                    if (file.FileName == "failed to get filename (password required?)") {
-                        failed++;
-                        progDlg.IncrementProgressBar2();
-                        continue;
-                    }
-
-                    var req = (HttpWebRequest)WebRequest.Create(file.DownloadUri);
-                    req.CookieContainer = new CookieContainer();
-                    req.CookieContainer.Add(await Gigafile.GetCookieCollectionFromUri(new Uri(file.RedirectedUri)));
-                    var response = await req.GetResponseAsync();
-                    var list = new List<byte>();
-                    var stream = response.GetResponseStream();
-
-                    using (var fs = new FileStream($@"{dir}\{file.FileName}", FileMode.Create, FileAccess.Write)) {
-                        byte[] data = new byte[1024];
-                        int received = 0;
-                        while (true) {
-                            var size = stream.Read(data, 0, data.Length);
-                            if (size == 0) {
-                                break;
-                            }
-                            fs.Write(data, 0, size);
-
-                            received++;
-                            progDlg.IncrementProgressBar1((int)Math.Floor((double)received * 100d / (double)data.Length), file.FileSize);
-                        }
-                    }
-
-                    progDlg.IncrementProgressBar2();
-                }
-            });
-
-            MessageBox.Show($"Success: {files.Count - failed} file(s)\nFailed: {failed} files(s)\n\nSaved at {dir}");
-            progDlg.Dispose();
+            using (var progDlg = new Downloader(GetSelectedFiles(), dir))
+                progDlg.ShowDialog();
 
             Enabled = true;
         }
