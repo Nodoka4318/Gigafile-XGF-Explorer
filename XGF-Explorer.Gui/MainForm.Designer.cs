@@ -172,7 +172,7 @@
             // 
             this.spanTrackBar.Location = new System.Drawing.Point(81, 284);
             this.spanTrackBar.Maximum = 10000;
-            this.spanTrackBar.Minimum = 100;
+            this.spanTrackBar.Minimum = 500;
             this.spanTrackBar.Name = "spanTrackBar";
             this.spanTrackBar.Size = new System.Drawing.Size(162, 45);
             this.spanTrackBar.TabIndex = 7;
