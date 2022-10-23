@@ -1,4 +1,5 @@
 # XGF-Explorer
+日本語は[コチラ](/README-ja.md)から
 ## Disclaimer
 | THIS SOFTWARE IS **FOR EDUCATIONAL PURPOSES ONLY**. |
 | --------------------------------------------------- |
@@ -23,7 +24,7 @@ Download the latest version zip from the release page and unzip it.
 The 4-digit code in xgf.nu uses only single-byte alphanumeric characters.
 Therefore, when you enter the code at random, the probability of your file being accessed is
 $$(\frac{1}{62})^4 = \frac{1}{14776336}.$$ \
-It is small, but when you run brute force with a computer, the probability increases greatly because you can search thousands of files in a short period of time.
+It may seem very small, but when you run brute force with a computer, the probability increases greatly because you can search thousands of files in a short period of time.
 
 To prevent the leakage of your data, you should
 
