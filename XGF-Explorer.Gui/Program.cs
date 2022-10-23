@@ -13,13 +13,16 @@ namespace Xgf.Gui {
         static bool exited;
         static MainForm form;
 
-        static string DataPath = $@"{Environment.SpecialFolder.LocalApplicationData}\Xgf-Explorer";
+        static string DataPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData)}\Xgf-Explorer";
         static string LogPath = $@"{DataPath}\latest.log";
 
         [STAThread]
         public static void Main(string[] args) {
             if (!Directory.Exists(DataPath))
                 Directory.CreateDirectory(DataPath);
+
+            if (File.Exists(LogPath))
+                File.Delete(LogPath);
 
             explorer = new Explorer(LogPath);
             form = new MainForm();
