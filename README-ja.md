@@ -14,7 +14,7 @@
 - 探索ログの保存
 
 ## 使い方
-[リリースページ](https://github.com/Nodoka4318/XGF-Explorer/Releases)から最新版のzipをダウンロードし、解凍してください。
+[リリースページ](/releases)から最新版のzipをダウンロードし、解凍してください。
 
 ## スクリーンショット
 ![thumb1](https://user-images.githubusercontent.com/78198198/197372715-efaf1c17-6394-4845-8f41-6af4a31781d3.png)
