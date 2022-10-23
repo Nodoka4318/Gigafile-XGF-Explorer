@@ -14,6 +14,8 @@ This software randomly generates 4-digit codes for [xgf.nu](https://xgf.nu), a U
 - Downloading of one or multiple files found
 - Saving search logs
 
+**To avoid overloading the requesting server, the frequency of searches is limited to 2 codes per second.**
+
 ## How to use
 Download the latest version zip from the [release page](https://github.com/Nodoka4318/Gigafile-XGF-Explorer/releases/latest) and unzip it.
 
