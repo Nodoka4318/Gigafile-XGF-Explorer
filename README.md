@@ -15,7 +15,7 @@ This software randomly generates 4-digit codes for [xgf.nu](https://xgf.nu), a U
 - Saving search logs
 
 ## How to use
-Download the latest version zip from the release page and unzip it.
+Download the latest version zip from the [release page](/releases) and unzip it.
 
 ## Screenshot
 ![thumb1](https://user-images.githubusercontent.com/78198198/197372715-efaf1c17-6394-4845-8f41-6af4a31781d3.png)
