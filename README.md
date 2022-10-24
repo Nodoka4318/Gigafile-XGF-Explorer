@@ -10,8 +10,8 @@ This software randomly generates 4-digit codes for [xgf.nu](https://xgf.nu), a U
 
 ## Functions
 - Automatic checking of valid codes
-- Prevention of duplicate codes
-- Downloading of one or multiple files found
+- Preventing duplicated codes
+- Downloading one or multiple files found
 - Saving search logs
 
 **To avoid overloading the requesting server, the frequency of searches is limited to 2 codes per second.**
