@@ -93,7 +93,7 @@ namespace Xgf {
             var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
             var rnd = new Random(seed == -1 ? Environment.TickCount : seed);
             string code = "";
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 5; i++) {
                 code += chars[rnd.Next(chars.Length)];
             }
             return code;
